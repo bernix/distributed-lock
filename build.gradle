@@ -1,0 +1,35 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.2.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'my.bning'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+[javadoc, compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+compileJava {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    jcenter { url "http://jcenter.bintray.com/"}
+    mavenLocal()
+    //mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'redis.clients:jedis:3.0.1'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'io.springfox:springfox-swagger-ui:2.9.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
