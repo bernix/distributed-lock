@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'redis.clients:jedis:3.0.1'
+    // implementation 'redis.clients:jedis:3.0.1'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'io.springfox:springfox-swagger-ui:2.9.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -9,6 +9,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Bernix Ning
  * @since 2019-02-15
@@ -26,9 +30,12 @@ public class DemoControllerTests {
         String uuid = "abcdefg";
         String key = "distributed-lock-test";
         String seconds2live = "10";
+
+        ExecutorService exeService = Executors.newFixedThreadPool(10);
+
         for (int i = 0; i < 10; i++) {
             final int userId = i;
-            new Thread(() -> {
+            exeService.execute(() -> {
                 MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
                 params.add("key", key);
                 params.add("uuid", uuid);
@@ -36,10 +43,12 @@ public class DemoControllerTests {
                 params.add("userId", String.valueOf(userId));
                 String result = testRestTemplate.postForObject(url, params, String.class);
                 System.out.println("----------------- " + result);
-            }).start();
+            });
         }
+        // 等待上述线程执行完成
+        exeService.shutdown();
         try {
-            Thread.sleep(10000L);
+            exeService.awaitTermination(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
